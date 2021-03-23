@@ -4,6 +4,7 @@ import nl.hu.cisq1.lingo.trainer.exception.InvalidAttemptException;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -46,17 +47,15 @@ class FeedbackTest {
         assertThrows(    InvalidFeedbackException.class,
                 () -> new Feedback("woord", List.of(Mark.CORRECT)));
     }
-
-
-    @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2}| {3}| {4}| {5} | {6}")
-    @MethodSource("provideHintExamples")
+    @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2}| {3}| {4}| {5} | {6} | {7}")
+    @MethodSource("HintExamples")
     @DisplayName("Show all marks when the attempt is correct")
-    void provideFeedback(String attempt, List<Mark> marks, List<String> hint) {
+    void FeedbackHintTest(String attempt, List<Mark> marks, List<String> hint) {
         Feedback feedback = new Feedback(attempt, marks);
         assertEquals(hint, feedback.gaveHint());
     }
 
-    static Stream<Arguments> provideHintExamples() {
+    static Stream<Arguments> HintExamples() {
         return Stream.of(
                 Arguments.of("woord", List.of(Mark.CORRECT,Mark.ABSENT,Mark.ABSENT,Mark.ABSENT,Mark.CORRECT),
                         List.of("w",".",".",".","d")),
@@ -71,9 +70,35 @@ class FeedbackTest {
                 Arguments.of("woord", List.of(Mark.ABSENT,Mark.ABSENT,Mark.ABSENT,Mark.ABSENT,Mark.ABSENT),
                         List.of(".",".",".",".",".")),
                 Arguments.of("woord", List.of(Mark.PRESENT,Mark.PRESENT,Mark.PRESENT,Mark.PRESENT,Mark.PRESENT),
-                        List.of("(w)","(o)","(o)","(r)","(d)"))
+                        List.of("(w)","(o)","(o)","(r)","(d)")),
+                Arguments.of("woord", List.of(Mark.PRESENT,Mark.PRESENT,Mark.PRESENT,Mark.PRESENT,Mark.ABSENT),
+                        List.of("(w)","(o)","(o)","(r)","."))
         );
     }
+    @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2}| {3}| {4}")
+    @MethodSource("provideHintExamples")
+    @DisplayName("Show all marks when the attempt is correct")
+    void provideFeedbackHintTest(String attempt, List<Mark> marks, List<String> oldHint, List<String> newHint) {
+        Feedback feedback = new Feedback(attempt, marks);
+        assertEquals(newHint, feedback.gaveHint(oldHint));
+    }
+
+    static Stream<Arguments> provideHintExamples() {
+        return Stream.of(
+                Arguments.of("woord", List.of(Mark.CORRECT,Mark.ABSENT,Mark.ABSENT,Mark.ABSENT,Mark.CORRECT),
+                        List.of("w",".",".",".","d"), List.of("w",".",".",".","d")),
+                Arguments.of("woord", List.of(Mark.ABSENT,Mark.CORRECT,Mark.ABSENT,Mark.ABSENT,Mark.ABSENT),
+                        List.of(".","o","(o)","r","d"),List.of(".","o",".","r","d")),
+                Arguments.of("woord", List.of(Mark.ABSENT,Mark.ABSENT,Mark.ABSENT,Mark.ABSENT,Mark.ABSENT),
+                        List.of("w","(o)",".","(r)","d"),List.of("w",".",".",".","d")),
+                Arguments.of("woord", List.of(Mark.PRESENT,Mark.ABSENT,Mark.ABSENT,Mark.ABSENT,Mark.PRESENT),
+                        List.of(".",".",".",".","."),List.of("(w)",".",".",".","(d)")),
+                Arguments.of("woord", List.of(Mark.CORRECT,Mark.CORRECT,Mark.CORRECT,Mark.CORRECT,Mark.CORRECT),
+                        List.of(".","o","(w)",".","(r)"),List.of("w","o","o","r","d"))
+        );
+    }
+
+
 
     @Test
     @DisplayName("hint is invalid when the feedback length Not like attempt length  ")
@@ -82,6 +107,15 @@ class FeedbackTest {
         assertThrows(    InvalidAttemptException.class,
                 feedback::gaveHint);
     }
+    @Test
+    @DisplayName("hint is invalid when the feedback length Not like attempt length  ")
+    void InvalidHitTest2 (){
+        Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT,Mark.PRESENT, Mark.INVALID,Mark.CORRECT,Mark.ABSENT));
+        assertThrows(    InvalidAttemptException.class,
+                ()-> feedback.gaveHint(List.of(".","o","(w)",".","(r)")));
+    }
+
+
     @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2}| {3}| {4}")
     @MethodSource("listMarksTesten")
     @DisplayName("When attempt and word to guess have a same length make for every letter feedback(correct, absent or present) else invalid ")
