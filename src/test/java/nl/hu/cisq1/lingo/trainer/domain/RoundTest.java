@@ -33,7 +33,33 @@ class RoundTest {
             round.guessWord("bbbb");
         assertThrows( IllegalMoveException.class,
                 ()-> round.guessWord("word"));
+        round.setRoundStatus(RoundStatus.Playing);
+        assertThrows( IllegalMoveException.class,
+                ()-> round.guessWord("word"));
     }
+
+    @Test
+    @DisplayName("Can not guessed when the game ended")
+    void ongeldigMove2(){
+        Round round = new Round("word");
+        for (int i = 0 ; i < 4 ; i++)
+            round.guessWord("bbbb");
+        round.setRoundStatus(RoundStatus.Lose);
+        assertThrows( IllegalMoveException.class,
+                ()-> round.guessWord("bbbb"));
+    }
+
+
+
+    @Test
+    @DisplayName("the game ended when try wrong 5 time")
+    void losRoundTest(){
+        Round round = new Round("word");
+        for (int i = 0 ; i < 5 ; i++)
+            round.guessWord("bbbb");
+       assertEquals(RoundStatus.Lose, round.getRoundStatus());
+    }
+
 
 
     @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2}| {3}")
@@ -83,6 +109,18 @@ class RoundTest {
         Feedback feedback = new Feedback("w...",List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT));
         Feedback feedback1 = round.firstHint();
         assertEquals(feedback1,feedback);
+    }
+
+    //from here
+
+    @Test
+    @DisplayName("Test2")
+    void equalTest(){
+        Round round = new Round("woord");
+        Feedback feedback = new Feedback("w...",List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT));
+        Feedback feedback1 = round.firstHint();
+        assertNotEquals(feedback1, feedback);
+        
     }
 
 }

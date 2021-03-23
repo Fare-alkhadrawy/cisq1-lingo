@@ -29,19 +29,21 @@ public class Round implements Serializable {
 
         if (guess.length() != wordToGuess.length())
             throw new InvalidAttemptException("word has to many letters or to few letters");
-        else if (feedbackList.size() >= 5 || roundStatus != RoundStatus.Playing)
+        else if (feedbackList.size() == 5 || roundStatus != RoundStatus.Playing) {
             throw new IllegalMoveException("Round is ended");
-
+        }
+        else {
         Feedback feedback = new Feedback(guess, Feedback.feedbackGenerator(guess, wordToGuess));
         attempts.add(guess);
         feedback.gaveHint();
         feedbackList.add(feedback);
         if (isRoundWon()) {
             this.roundStatus = RoundStatus.Win;
-        } else if (feedbackList.size() == 5 && !isRoundWon()) {
+        } else if (feedbackList.size() == 5) {
             this.roundStatus = RoundStatus.Lose;
         }
         return feedback;
+        }
     }
 
 
@@ -72,5 +74,9 @@ public class Round implements Serializable {
 
     public String getWordToGuess ( ) {
         return wordToGuess;
+    }
+
+    public void setRoundStatus (RoundStatus roundStatus) {
+        this.roundStatus = roundStatus;
     }
 }

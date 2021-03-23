@@ -36,7 +36,25 @@ public class Feedback implements Serializable {
         for (int i = 0; i< marks.size();i++){
             if (marks.get(i) == Mark.CORRECT)this.hint.add(String.valueOf(attemptCharacter[i]));
             else if (marks.get(i) == Mark.ABSENT)this.hint.add(".");
-            else if (marks.get(i) == Mark.PRESENT)this.hint.add(String.format("(%s)", attemptCharacter[i]));
+            else this.hint.add(String.format("(%s)", attemptCharacter[i]));
+        }
+        return hint;
+    }
+    public List<String> gaveHint(List<String> oldHint){
+        if (!isWordVlid())throw new InvalidAttemptException("invalid attempt");
+        char[] attemptCharacter = attempt.toCharArray();
+        for (int i = 0; i< marks.size();i++){
+            if (marks.get(i) == Mark.CORRECT) {
+                this.hint.add(String.valueOf(attemptCharacter[i]));
+            }
+            else if (marks.get(i) == Mark.ABSENT){
+                if (! oldHint.get(i).contains("(")&& !oldHint.get(i).equals(".")){
+                    this.hint.add(oldHint.get(i));
+                }
+                else
+                    this.hint.add(".");
+            }
+            else hint.add(String.format("(%s)", attemptCharacter[i]));
         }
         return hint;
     }
@@ -73,17 +91,5 @@ public class Feedback implements Serializable {
     public int hashCode ( ) {
         return Objects.hash(attempt, marks, hint);
     }
-//    @Override
-//    public boolean equals (Object o) {
-//        if (this == o) return true;
-//        if (!( o instanceof Feedback )) return false;
-//        Feedback feedback = (Feedback) o;
-//        return Objects.equals(attempt, feedback.attempt) &&
-//                Objects.equals(marks, feedback.marks);
-//    }
-//
-//    @Override
-//    public int hashCode ( ) {
-//        return Objects.hash(attempt, marks);
-//    }
+
 }
