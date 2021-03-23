@@ -112,14 +112,7 @@ class RoundTest {
     }
 
     //from here
-    @Test
-    @DisplayName("Test")
-    void firstHintNotWorkTest(){
-        Round round = new Round("word");
-        Feedback feedback = new Feedback("w...",List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT));
-        Feedback feedback1 = round.firstHint();
-        assertNotEquals(feedback1, round);
-    }
+
     @Test
     @DisplayName("Test2")
     void equalTest(){
