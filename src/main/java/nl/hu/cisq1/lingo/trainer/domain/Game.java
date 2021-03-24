@@ -52,7 +52,7 @@ public class Game implements Serializable{
         }
 
         public int scoreBerekening(Round round){
-           return  5 * (5 - round.getFeedbackList().size()) + 5;
+           return  5 * (6 - round.getFeedbackList().size()) + 5;
         }
 
         public int wordLength(){
