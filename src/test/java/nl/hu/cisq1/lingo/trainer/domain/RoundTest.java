@@ -120,7 +120,7 @@ class RoundTest {
         Feedback feedback = new Feedback("w...",List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT));
         Feedback feedback1 = round.firstHint();
         assertNotEquals(feedback1, feedback);
-        
+
     }
 
 }
