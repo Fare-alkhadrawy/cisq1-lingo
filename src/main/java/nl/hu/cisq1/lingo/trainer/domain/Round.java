@@ -1,18 +1,32 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.NoArgsConstructor;
+import nl.hu.cisq1.lingo.trainer.data.AttemptsConverter;
 import nl.hu.cisq1.lingo.trainer.exception.IllegalMoveException;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidAttemptException;
 import org.springframework.hateoas.Link;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+@Entity
+@Table(name = "Round")
+@NoArgsConstructor
 public class Round implements Serializable {
+    @Id
+    @GeneratedValue
+    private long RoundId;
     private String wordToGuess;
+    @Convert(converter = AttemptsConverter.class)
     private List<String> attempts;
+    @OneToMany(cascade= CascadeType.ALL)
+    @JoinColumn(name = "roundId")
     private List<Feedback> feedbackList;
+    @Enumerated
     private RoundStatus roundStatus;
+
 
     public Round (String wordToGuess){
         this.wordToGuess = wordToGuess;
@@ -74,5 +88,8 @@ public class Round implements Serializable {
 
     public void setRoundStatus (RoundStatus roundStatus) {
         this.roundStatus = roundStatus;
+    }
+    public List<String> getLastHint(){
+        return feedbackList.get(feedbackList.size()-1).getHint();
     }
 }

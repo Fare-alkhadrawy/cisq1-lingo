@@ -1,18 +1,35 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.NoArgsConstructor;
+import nl.hu.cisq1.lingo.trainer.data.AttemptsConverter;
+import nl.hu.cisq1.lingo.trainer.data.HintConverter;
+import nl.hu.cisq1.lingo.trainer.data.MarksConverter;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidAttemptException;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 import org.apache.tomcat.util.buf.StringUtils;
 
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "Feedback")
+@NoArgsConstructor
 public class Feedback implements Serializable {
+    @Id
+    @GeneratedValue
+    private int id;
     private String attempt;
+    @Convert(converter = MarksConverter.class)
     private List<Mark> marks;
+    @Convert(converter = HintConverter.class)
     private List<String> hint;
+
 
     public Feedback( String attempt, List<Mark> marks){
         this.attempt = attempt;
@@ -75,6 +92,10 @@ public class Feedback implements Serializable {
             }
         }
         return marks;
+    }
+
+    public List<String> getHint ( ) {
+        return hint;
     }
 
     @Override

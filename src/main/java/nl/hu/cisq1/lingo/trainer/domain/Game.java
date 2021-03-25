@@ -1,5 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.trainer.exception.RoundPlayingException;
 
 import javax.persistence.*;
@@ -9,14 +11,16 @@ import java.util.List;
 
 @Entity
 @Table(name = "Game")
+@NoArgsConstructor
 public class Game implements Serializable{
         @Id
         @GeneratedValue
-        private Long id;
+        private Long gameId;
 
         private int score;
 
-        @Lob
+        @OneToMany(cascade=CascadeType.ALL)
+        @JoinColumn(name="gameId")
         private List<Round> rounds = new ArrayList<>();
 
         public Game(String word){
@@ -24,11 +28,8 @@ public class Game implements Serializable{
             this.rounds.add(round);
             this.score = 0;
         }
-        public Game(){};
 
-//        public void startGame(String string){
-//            new Game(string).getLastRound().firstHint();
-//        }
+
         public void startRound(String wordToGuess) {
                 if (getLastRound().getRoundStatus() != RoundStatus.Win) {
                     throw new RoundPlayingException("Round stil playing");
@@ -48,7 +49,8 @@ public class Game implements Serializable{
 
         public Round getLastRound(){
             if (this.rounds.isEmpty()) return null;
-          else    return this.rounds.get(rounds.size()-1);
+            else
+              return this.rounds.get(rounds.size()-1);
         }
 
         public int scoreBerekening(Round round){
@@ -63,5 +65,9 @@ public class Game implements Serializable{
 
         public int getScore ( ) {
             return score;
+        }
+
+        public int roundNumber(){
+            return rounds.size();
         }
 }
