@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.trainer.data.AttemptsConverter;
 import nl.hu.cisq1.lingo.trainer.exception.IllegalMoveException;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidAttemptException;
-import org.springframework.hateoas.Link;
 
 import javax.persistence.*;
 import java.io.Serializable;
