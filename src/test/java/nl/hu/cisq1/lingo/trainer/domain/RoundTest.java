@@ -111,6 +111,14 @@ class RoundTest {
         assertEquals(feedback1,feedback);
     }
 
+    @Test
+    @DisplayName("Test the last hint")
+    void lastHintTest(){
+        Round round = new Round("word");
+        round.guessWord("wfrd");
+        assertEquals(round.getLastHint(),List.of("w",".","r","d"));
+    }
+
     //from here
 
     @Test
