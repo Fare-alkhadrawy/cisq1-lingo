@@ -5,10 +5,11 @@ import nl.hu.cisq1.lingo.trainer.application.GameService;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.presentation.DTOs.GameDTO;
 import nl.hu.cisq1.lingo.trainer.presentation.DTOs.GuessDTO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/game")
@@ -18,6 +19,7 @@ public class GameController {
     public GameController(GameService service){
         this.service = service;
     }
+
 
     @PostMapping
     public GameDTO startGame(){
