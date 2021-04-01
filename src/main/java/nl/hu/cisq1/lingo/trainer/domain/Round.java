@@ -1,6 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.trainer.data.AttemptsConverter;
 import nl.hu.cisq1.lingo.trainer.exception.IllegalMoveException;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Table(name = "Round")
+@Data
 @NoArgsConstructor
 public class Round implements Serializable {
     @Id
@@ -69,21 +71,13 @@ public class Round implements Serializable {
         return feedback;
     }
 
+
     public boolean isRoundWon(){
         return feedbackList.get(feedbackList.size()-1).isWordGuessed();
     }
 
-    public RoundStatus getRoundStatus ( ) {
-        return roundStatus;
-    }
 
-    public List<Feedback> getFeedbackList ( ) {
-        return feedbackList;
-    }
 
-    public String getWordToGuess ( ) {
-        return wordToGuess;
-    }
 
     public void setRoundStatus (RoundStatus roundStatus) {
         this.roundStatus = roundStatus;

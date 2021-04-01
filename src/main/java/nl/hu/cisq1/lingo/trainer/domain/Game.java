@@ -1,6 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.trainer.exception.RoundPlayingException;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Game")
+@Data
 @NoArgsConstructor
 public class Game implements Serializable{
         @Id
@@ -18,6 +20,7 @@ public class Game implements Serializable{
         private Long gameId;
 
         private int score;
+        private GameStatus gameStatus;
 
         @OneToMany(cascade=CascadeType.ALL)
         @JoinColumn(name="gameId")
@@ -25,6 +28,7 @@ public class Game implements Serializable{
 
         public Game(String word){
             Round round = new Round(word);
+            this.gameStatus = GameStatus.PLAYING;
             this.rounds.add(round);
             this.score = 0;
         }
@@ -42,8 +46,12 @@ public class Game implements Serializable{
 
         public void guessWord(String word){
             getLastRound().guessWord(word);
-            if (getLastRound().isRoundWon())
-                this.score +=scoreBerekening(getLastRound());
+            if (getLastRound().isRoundWon()) {
+                this.score += scoreBerekening(getLastRound());
+            }
+            else if (getLastRound().getRoundStatus()==RoundStatus.Lose){
+                this.gameStatus = GameStatus.LOST;
+            }
 
         }
 
@@ -63,9 +71,7 @@ public class Game implements Serializable{
             else return 5;
         }
 
-        public int getScore ( ) {
-            return score;
-        }
+
 
         public int roundNumber(){
             return rounds.size();
