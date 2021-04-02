@@ -20,14 +20,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameServiceTestDoubles {
 
-    private WordService word;
-    private SpringGameRepository repository;
+
     private GameService service;
     private Game game;
     @BeforeEach
     void beforeEach(){
         WordService word = Mockito.mock(WordService.class);
-        repository = mock(SpringGameRepository.class);
+        SpringGameRepository repository = mock(SpringGameRepository.class);
         when(word.provideRandomWord(anyInt())).thenReturn("appel");
         game = new Game(word.provideRandomWord(6));
         when(repository.findById(2L)).thenReturn(java.util.Optional.of(game));
@@ -76,50 +75,4 @@ class GameServiceTestDoubles {
     public void gameFoundedTest() throws NotFoundException {
         assertEquals(game, service.getGame(2L));
     }
-//    @Autowired
-//    GameService service;
-//    @Autowired
-//    SpringGameRepository repository;
-//
-//
-//    @DisplayName("test throw exception if the game not founded")
-//    @Test
-//    void getGameTestFail(){
-//        assertThrows(NotFoundException.class,()-> service.getGame((long) 0));
-//    }
-//
-//    @DisplayName("test if the first word has 5 letter in new game")
-//    @Test
-//    void startGameWordLength ( ) {
-//        Game game = service.startGame();
-//        assertEquals(5, game.getLastRound().getWordToGuess().length());
-//    }
-//
-//
-//
-//    @Test
-//    @DisplayName("test if the service make a new game")
-//    void startGame ( ) {
-//        Game game = service.startGame();
-//        System.out.println(game);
-//        assertNotNull(game);
-//        assertEquals(1, game.getRounds().size());
-//    }
-//
-//    @Test
-//    @DisplayName("test make a new round")
-//    void startNewRound ( ) throws NotFoundException {
-//        WordService wordService= Mockito.mock(WordService.class);
-//        Mockito.when(wordService.provideRandomWord(Mockito.anyInt())).thenReturn("appel");
-//        GameService service1 = new GameService(wordService, repository);
-//        Game game = service1.startGame();
-//        System.out.println(game);
-//        service1.doGuess("appel", game.getGameId());
-//        System.out.println(game);
-//        assertEquals(2, service1.startNewRound(game.getGameId()).getRounds().size());
-//    }
-//
-//    @Test
-//    void doGuess ( ) {
-//    }
 }

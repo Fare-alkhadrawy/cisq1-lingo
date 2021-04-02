@@ -56,9 +56,7 @@ public class Game implements Serializable{
         }
 
         public Round getLastRound(){
-            if (this.rounds.isEmpty()) return null;
-            else
-              return this.rounds.get(rounds.size()-1);
+            return this.rounds.get(rounds.size()-1);
         }
 
         public int scoreBerekening(Round round){

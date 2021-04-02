@@ -46,7 +46,7 @@ public class Round implements Serializable {
             throw new IllegalMoveException("Round is ended");
         Feedback feedback = new Feedback(guess, Feedback.feedbackGenerator(guess, wordToGuess));
         attempts.add(guess);
-        feedback.gaveHint();
+        feedback.gaveHint(feedbackList.get(feedbackList.size()-1).getHint());
         feedbackList.add(feedback);
         if (isRoundWon()) {
             this.roundStatus = RoundStatus.Win;

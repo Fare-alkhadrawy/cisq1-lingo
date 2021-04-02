@@ -25,10 +25,16 @@ public class GameController {
     public GameDTO startGame(){
         return new GameDTO(service.startGame());
     }
+
     @PostMapping("/guess")
 
     public GameDTO guessWord(@RequestBody GuessDTO guessDTO) throws NotFoundException {
         return new GameDTO(service.doGuess(guessDTO.guess, guessDTO.id));
+    }
+    @PostMapping("/startRound/{id}")
+
+    public GameDTO startRound(@PathVariable long id) throws NotFoundException {
+        return new GameDTO(service.startNewRound(id));
     }
     @PostMapping("/test")
     public Game guess(@RequestBody GuessDTO guessDTO) throws NotFoundException {
