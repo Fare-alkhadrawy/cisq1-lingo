@@ -44,15 +44,15 @@ public class Game implements Serializable{
             }
         }
 
-        public void guessWord(String word){
+        public void guessWord(String word) {
             getLastRound().guessWord(word);
-            if (getLastRound().isRoundWon()) {
-                this.score += scoreBerekening(getLastRound());
+            if (getLastRound().getRoundStatus() != RoundStatus.Playing) {
+                if (getLastRound().isRoundWon()) {
+                    this.score += scoreBerekening(getLastRound());
+                } else {
+                    this.gameStatus = GameStatus.LOST;
+                }
             }
-            else if (getLastRound().getRoundStatus()==RoundStatus.Lose){
-                this.gameStatus = GameStatus.LOST;
-            }
-
         }
 
         public Round getLastRound(){

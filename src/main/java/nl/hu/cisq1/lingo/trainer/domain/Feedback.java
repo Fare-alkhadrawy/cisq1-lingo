@@ -102,10 +102,4 @@ public class Feedback implements Serializable {
                 Objects.equals(marks, feedback.marks);
 
     }
-
-    @Override
-    public int hashCode ( ) {
-        return Objects.hash(attempt, marks, hint);
-    }
-
 }
