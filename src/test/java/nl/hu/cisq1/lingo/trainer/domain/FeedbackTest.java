@@ -131,4 +131,21 @@ class FeedbackTest {
             );
 
     }
+
+    @Test
+    @DisplayName("equals function test")
+    void equalsAndHashCode(){
+        Feedback one = new Feedback("w...",List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT));
+        Feedback two = new Feedback("w...",List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT));
+        Feedback three = new Feedback("wo..",List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT));
+        Feedback four = new Feedback("w...",List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT));
+        Object object = new Object();
+        assertEquals(one,one);
+        assertNotEquals(object,one);
+        assertNotEquals(one, null);
+        assertEquals( one, two);
+        assertNotEquals(one, three);
+        assertNotEquals(one, four);
+        assertNotEquals(three,four);
+    }
 }

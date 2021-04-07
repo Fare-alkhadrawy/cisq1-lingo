@@ -1,5 +1,8 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.trainer.exception.RoundPlayingException;
 
 import javax.persistence.*;
@@ -9,26 +12,28 @@ import java.util.List;
 
 @Entity
 @Table(name = "Game")
+@Data
+@NoArgsConstructor
 public class Game implements Serializable{
         @Id
         @GeneratedValue
-        private Long id;
+        private Long gameId;
 
         private int score;
+        private GameStatus gameStatus;
 
-        @Lob
+        @OneToMany(cascade=CascadeType.ALL)
+        @JoinColumn(name="gameId")
         private List<Round> rounds = new ArrayList<>();
 
         public Game(String word){
             Round round = new Round(word);
+            this.gameStatus = GameStatus.PLAYING;
             this.rounds.add(round);
             this.score = 0;
         }
-        public Game(){};
 
-//        public void startGame(String string){
-//            new Game(string).getLastRound().firstHint();
-//        }
+
         public void startRound(String wordToGuess) {
                 if (getLastRound().getRoundStatus() != RoundStatus.Win) {
                     throw new RoundPlayingException("Round stil playing");
@@ -39,20 +44,23 @@ public class Game implements Serializable{
             }
         }
 
-        public void guessWord(String word){
+        public void guessWord(String word) {
             getLastRound().guessWord(word);
-            if (getLastRound().isRoundWon())
-                this.score +=scoreBerekening(getLastRound());
-
+            if (getLastRound().getRoundStatus() != RoundStatus.Playing) {
+                if (getLastRound().isRoundWon()) {
+                    this.score += scoreBerekening(getLastRound());
+                } else {
+                    this.gameStatus = GameStatus.LOST;
+                }
+            }
         }
 
         public Round getLastRound(){
-            if (this.rounds.isEmpty()) return null;
-          else    return this.rounds.get(rounds.size()-1);
+            return this.rounds.get(rounds.size()-1);
         }
 
         public int scoreBerekening(Round round){
-           return  5 * (5 - round.getFeedbackList().size()) + 5;
+           return  5 * (6 - round.getFeedbackList().size()) + 5;
         }
 
         public int wordLength(){
@@ -61,7 +69,9 @@ public class Game implements Serializable{
             else return 5;
         }
 
-        public int getScore ( ) {
-            return score;
+
+
+        public int roundNumber(){
+            return rounds.size();
         }
 }

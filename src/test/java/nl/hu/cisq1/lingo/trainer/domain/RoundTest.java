@@ -111,16 +111,24 @@ class RoundTest {
         assertEquals(feedback1,feedback);
     }
 
+    @Test
+    @DisplayName("Test the last hint")
+    void lastHintTest(){
+        Round round = new Round("word");
+        round.guessWord("wfrd");
+        assertEquals(round.getLastHint(),List.of("w",".","r","d"));
+    }
+
     //from here
 
-    @Test
-    @DisplayName("Test2")
-    void equalTest(){
-        Round round = new Round("woord");
-        Feedback feedback = new Feedback("w...",List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT));
-        Feedback feedback1 = round.firstHint();
-        assertNotEquals(feedback1, feedback);
-        
-    }
+//    @Test
+//    @DisplayName("Test2")
+//    void equalTest(){
+//        Round round = new Round("woord");
+//        Feedback feedback = new Feedback("w...",List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT));
+//        Feedback feedback1 = round.firstHint();
+//        assertNotEquals(feedback1, feedback);
+//
+//    }
 
 }

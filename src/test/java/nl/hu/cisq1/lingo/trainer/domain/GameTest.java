@@ -31,7 +31,7 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("start new round  when the last lost")
+    @DisplayName("Test when the game is lost")
     void startNewRoundLostTest(){
         game.guessWord("wood");
         game.guessWord("wood");
@@ -40,6 +40,28 @@ class GameTest {
         game.guessWord("wood");
         assertThrows( RoundPlayingException.class,
                 ()-> game.startRound("woord"));
+    }
+
+    @Test
+    @DisplayName("start new round  when the last lost")
+    void gameLostTest(){
+        game.guessWord("wood");
+        game.guessWord("wood");
+        game.guessWord("wood");
+        game.guessWord("wood");
+        game.guessWord("wood");
+        assertEquals( game.getGameStatus(),GameStatus.LOST);
+    }
+
+    @Test
+    @DisplayName("Test how many rounds does a game contain ")
+    void roundSizeTest(){
+        game.guessWord("word");
+        game.startRound("test");
+        game.guessWord("test");
+        game.startRound("test");
+
+        assertEquals(3,game.roundNumber());
     }
 
     @Test
