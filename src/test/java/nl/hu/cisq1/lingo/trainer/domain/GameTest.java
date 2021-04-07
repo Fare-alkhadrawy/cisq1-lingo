@@ -38,7 +38,8 @@ class GameTest {
         game.guessWord("wood");
         game.guessWord("wood");
         game.guessWord("wood");
-        assertEquals(GameStatus.LOST, game.getGameStatus());
+        assertThrows( RoundPlayingException.class,
+                ()-> game.startRound("woord"));
     }
 
     @Test
@@ -49,8 +50,7 @@ class GameTest {
         game.guessWord("wood");
         game.guessWord("wood");
         game.guessWord("wood");
-        assertThrows( RoundPlayingException.class,
-                ()-> game.startRound("woord"));
+        assertEquals( game.getGameStatus(),GameStatus.LOST);
     }
 
     @Test
