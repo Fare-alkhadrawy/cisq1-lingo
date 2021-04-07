@@ -5,6 +5,7 @@ import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.domain.GameStatus;
 import nl.hu.cisq1.lingo.trainer.domain.RoundStatus;
+import nl.hu.cisq1.lingo.trainer.exception.GameNotFoundException;
 import nl.hu.cisq1.lingo.trainer.exception.IllegalMoveException;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,9 +19,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class GameServiceTestDoubles {
-
-
+class GameServiceTest {
     private GameService service;
     private Game game;
     @BeforeEach
@@ -68,7 +67,7 @@ class GameServiceTestDoubles {
     @Test
     @DisplayName("Test if the game not founded")
     public void gameNotFoundedTest(){
-        assertThrows(NotFoundException.class,()->service.getGame(4L));
+        assertThrows(GameNotFoundException.class,()->service.getGame(4L));
     }
     @Test
     @DisplayName("Test if the game founded")

@@ -5,6 +5,7 @@ import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.domain.GameStatus;
 import nl.hu.cisq1.lingo.trainer.domain.RoundStatus;
+import nl.hu.cisq1.lingo.trainer.exception.GameNotFoundException;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ public class GameServiceIntegrationTest {
     @DisplayName("test throw exception if the game not founded")
     @Test
     void getGameTestFail(){
-        assertThrows(NotFoundException.class,()-> service.getGame((long) 0));
+        assertThrows(GameNotFoundException.class,()-> service.getGame((long) 0));
     }
 
     @DisplayName("test if the first word has 5 letter in new game")
