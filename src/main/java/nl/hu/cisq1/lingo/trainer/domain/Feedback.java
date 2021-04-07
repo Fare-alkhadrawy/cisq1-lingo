@@ -93,7 +93,6 @@ public class Feedback implements Serializable {
         return marks;
     }
 
-    @Override
     public boolean equals (Object o) {
         if (this == o) return true;
         if (!( o instanceof Feedback )) return false;
