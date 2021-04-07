@@ -93,6 +93,7 @@ public class Feedback implements Serializable {
         return marks;
     }
 
+    @Override
     public boolean equals (Object o) {
         if (this == o) return true;
         if (!( o instanceof Feedback )) return false;
@@ -100,5 +101,10 @@ public class Feedback implements Serializable {
         return Objects.equals(attempt, feedback.attempt) &&
                 Objects.equals(marks, feedback.marks);
 
+    }
+
+    @Override
+    public int hashCode ( ) {
+        return Objects.hash(getId(), getAttempt(), getMarks(), getHint());
     }
 }
