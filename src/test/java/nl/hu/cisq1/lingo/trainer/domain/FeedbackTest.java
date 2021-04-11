@@ -142,7 +142,7 @@ class FeedbackTest {
         Feedback four = new Feedback("w...",List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT));
         Object object = new Object();
         assertEquals(one,one);
-        assertNotEquals(object,one);
+        assertNotEquals(one, object);
         assertNotEquals(null, one);
         assertEquals( one, two);
         assertNotEquals(one, three);
