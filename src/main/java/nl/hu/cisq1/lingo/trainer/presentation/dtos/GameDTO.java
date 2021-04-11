@@ -8,13 +8,14 @@ import java.util.List;
 
 @Data
 public class GameDTO {
+    private long gameId;
     private int score;
     private int roundNumber;
     private RoundStatus roundStatus;
     private List<String> hints;
 
     public GameDTO(Game game){
-
+        this.gameId = game.getGameId();
         this.score = game.getScore();
         this.roundNumber = game.roundNumber();
         this.roundStatus = game.getLastRound().getRoundStatus();
