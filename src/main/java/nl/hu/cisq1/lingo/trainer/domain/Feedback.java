@@ -56,6 +56,7 @@ public class Feedback implements Serializable {
         }
         return hint;
     }
+
     public List<String> gaveHint(List<String> oldHint){
         if (!isWordVlid())throw new InvalidAttemptException("invalid attempt");
         char[] attemptCharacter = attempt.toCharArray();
