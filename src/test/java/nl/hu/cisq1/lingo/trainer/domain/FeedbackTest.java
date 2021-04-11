@@ -43,8 +43,9 @@ class FeedbackTest {
     @Test
     @DisplayName("feedback is Not valid when the feedback length Not like attempt length  ")
     void isFeedbackValid ( ) {
-        assertThrows(    InvalidFeedbackException.class,
-                () -> new Feedback("woord", List.of(Mark.CORRECT)));
+        List<Mark> list=List.of(Mark.CORRECT);
+        assertThrows(InvalidFeedbackException.class,
+                () -> new Feedback("woord",list));
     }
     @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2}| {3}| {4}| {5} | {6} | {7}")
     @MethodSource("HintExamples")
@@ -110,8 +111,9 @@ class FeedbackTest {
     @DisplayName("hint is invalid when the feedback length Not like attempt length  ")
     void InvalidHitTest2 (){
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT,Mark.PRESENT, Mark.INVALID,Mark.CORRECT,Mark.ABSENT));
+        List<String> list = List.of(".","o","(w)",".","(r)");
         assertThrows(    InvalidAttemptException.class,
-                ()-> feedback.gaveHint(List.of(".","o","(w)",".","(r)")));
+                ()-> feedback.gaveHint(list));
     }
 
 
