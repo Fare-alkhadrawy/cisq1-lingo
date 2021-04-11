@@ -4,7 +4,6 @@ import nl.hu.cisq1.lingo.trainer.domain.Mark;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Convert;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;

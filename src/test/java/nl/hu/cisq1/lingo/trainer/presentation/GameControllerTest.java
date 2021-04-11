@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.hu.cisq1.lingo.CiTestConfiguration;
 import nl.hu.cisq1.lingo.trainer.application.GameService;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
-import nl.hu.cisq1.lingo.trainer.domain.RoundStatus;
-import nl.hu.cisq1.lingo.trainer.presentation.DTOs.GuessDTO;
+import nl.hu.cisq1.lingo.trainer.presentation.dtos.GuessDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +58,7 @@ class GameControllerTest {
                 .contentType(MediaType.APPLICATION_JSON);
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.roundStatus").value("Win"));
+                .andExpect(jsonPath("$.roundStatus").value("WIN"));
     }
     @Test
     @DisplayName("Test invalid guess")

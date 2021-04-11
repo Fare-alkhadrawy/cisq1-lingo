@@ -2,7 +2,6 @@ package nl.hu.cisq1.lingo.trainer.application;
 
 
 
-import javassist.NotFoundException;
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.exception.GameNotFoundException;
@@ -10,7 +9,6 @@ import nl.hu.cisq1.lingo.words.application.WordService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 
 @Service

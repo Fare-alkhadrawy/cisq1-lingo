@@ -18,7 +18,7 @@ import java.util.List;
 public class Round implements Serializable {
     @Id
     @GeneratedValue
-    private long RoundId;
+    private long roundId;
     private String wordToGuess;
     @Convert(converter = AttemptsConverter.class)
     private List<String> attempts;
@@ -33,7 +33,7 @@ public class Round implements Serializable {
         this.wordToGuess = wordToGuess;
         this.attempts = new ArrayList<>();
         this.feedbackList = new ArrayList<>();
-        this.roundStatus = RoundStatus.Playing;
+        this.roundStatus = RoundStatus.PLAYING;
         feedbackList.add(firstHint());
 
     }
@@ -42,16 +42,16 @@ public class Round implements Serializable {
 
         if (guess.length() != wordToGuess.length())
             throw new InvalidAttemptException("word has to many letters or to few letters");
-        else if (feedbackList.size() == 6 || roundStatus != RoundStatus.Playing)
+        else if (feedbackList.size() == 6 || roundStatus != RoundStatus.PLAYING)
             throw new IllegalMoveException("Round is ended");
         Feedback feedback = new Feedback(guess, Feedback.feedbackGenerator(guess, wordToGuess));
         attempts.add(guess);
         feedback.gaveHint(feedbackList.get(feedbackList.size()-1).getHint());
         feedbackList.add(feedback);
         if (isRoundWon()) {
-            this.roundStatus = RoundStatus.Win;
+            this.roundStatus = RoundStatus.WIN;
         } else if (feedbackList.size() == 6) {
-            this.roundStatus = RoundStatus.Lose;
+            this.roundStatus = RoundStatus.LOSE;
         }
         return feedback;
 

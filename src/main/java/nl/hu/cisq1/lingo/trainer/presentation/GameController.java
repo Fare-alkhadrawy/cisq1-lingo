@@ -1,21 +1,16 @@
 package nl.hu.cisq1.lingo.trainer.presentation;
 
-import javassist.NotFoundException;
 import nl.hu.cisq1.lingo.trainer.application.GameService;
-import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.exception.GameNotFoundException;
 import nl.hu.cisq1.lingo.trainer.exception.IllegalMoveException;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidAttemptException;
 import nl.hu.cisq1.lingo.trainer.exception.RoundPlayingException;
-import nl.hu.cisq1.lingo.trainer.presentation.DTOs.GameDTO;
-import nl.hu.cisq1.lingo.trainer.presentation.DTOs.GuessDTO;
+import nl.hu.cisq1.lingo.trainer.presentation.dtos.GameDTO;
+import nl.hu.cisq1.lingo.trainer.presentation.dtos.GuessDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/game")
@@ -52,8 +47,4 @@ public class GameController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
-//    @PostMapping("/test")
-//    public Game guess(@RequestBody GuessDTO guessDTO) throws NotFoundException {
-//        return service.doGuess(guessDTO.guess, guessDTO.id);
-//    }
 }

@@ -1,6 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.exception.IllegalMoveException;
+
 import nl.hu.cisq1.lingo.trainer.exception.RoundPlayingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -109,6 +109,4 @@ class GameTest {
         game.startRound("woorrdd");
         assertEquals(5, game.wordLength());
     }
-
-
 }

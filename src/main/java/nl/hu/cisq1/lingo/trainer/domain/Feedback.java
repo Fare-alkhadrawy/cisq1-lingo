@@ -105,6 +105,6 @@ public class Feedback implements Serializable {
 
     @Override
     public int hashCode ( ) {
-        return Objects.hash(getId(), getAttempt(), getMarks(), getHint());
+        return Objects.hash(getAttempt(), getMarks());
     }
 }

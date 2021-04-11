@@ -2,10 +2,8 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.trainer.exception.IllegalMoveException;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidAttemptException;
-import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -33,7 +31,7 @@ class RoundTest {
             round.guessWord("bbbb");
         assertThrows( IllegalMoveException.class,
                 ()-> round.guessWord("word"));
-        round.setRoundStatus(RoundStatus.Playing);
+        round.setRoundStatus(RoundStatus.PLAYING);
         assertThrows( IllegalMoveException.class,
                 ()-> round.guessWord("word"));
     }
@@ -44,7 +42,7 @@ class RoundTest {
         Round round = new Round("word");
         for (int i = 0 ; i < 4 ; i++)
             round.guessWord("bbbb");
-        round.setRoundStatus(RoundStatus.Lose);
+        round.setRoundStatus(RoundStatus.LOSE);
         assertThrows( IllegalMoveException.class,
                 ()-> round.guessWord("bbbb"));
     }
@@ -57,7 +55,7 @@ class RoundTest {
         Round round = new Round("word");
         for (int i = 0 ; i < 5 ; i++)
             round.guessWord("bbbb");
-       assertEquals(RoundStatus.Lose, round.getRoundStatus());
+       assertEquals(RoundStatus.LOSE, round.getRoundStatus());
     }
 
 
@@ -90,7 +88,7 @@ class RoundTest {
     void roundIsGuessed(){
         Round round = new Round("word");
         round.guessWord("word");
-        assertEquals(RoundStatus.Win, round.getRoundStatus());
+        assertEquals(RoundStatus.WIN, round.getRoundStatus());
     }
 
     @Test
@@ -100,7 +98,7 @@ class RoundTest {
         for (int i = 0 ; i < 5; i++) {
             round.guessWord("wood");
         }
-        assertEquals(RoundStatus.Lose, round.getRoundStatus());
+        assertEquals(RoundStatus.LOSE, round.getRoundStatus());
     }
     @Test
     @DisplayName("Test the first hint when the round begon")
@@ -118,17 +116,4 @@ class RoundTest {
         round.guessWord("wfrd");
         assertEquals(round.getLastHint(),List.of("w",".","r","d"));
     }
-
-    //from here
-
-//    @Test
-//    @DisplayName("Test2")
-//    void equalTest(){
-//        Round round = new Round("woord");
-//        Feedback feedback = new Feedback("w...",List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT));
-//        Feedback feedback1 = round.firstHint();
-//        assertNotEquals(feedback1, feedback);
-//
-//    }
-
 }
