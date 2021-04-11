@@ -102,7 +102,7 @@ class FeedbackTest {
     @Test
     @DisplayName("hint is invalid when the feedback length Not like attempt length  ")
     void InvalidHitTest (){
-        Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT,Mark.PRESENT, Mark.INVALID,Mark.CORRECT,Mark.ABSENT));
+        Feedback feedback = new Feedback("woord", List.of(Mark.INVALID,Mark.INVALID, Mark.INVALID,Mark.INVALID,Mark.INVALID));
         assertThrows(    InvalidAttemptException.class,
                 feedback::gaveHint);
     }
@@ -141,7 +141,7 @@ class FeedbackTest {
         Object object = new Object();
         assertEquals(one,one);
         assertNotEquals(object,one);
-        assertNotEquals(one, null);
+        assertNotEquals(null, one);
         assertEquals( one, two);
         assertNotEquals(one, three);
         assertNotEquals(one, four);

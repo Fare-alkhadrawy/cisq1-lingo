@@ -50,7 +50,7 @@ class GameTest {
         game.guessWord("wood");
         game.guessWord("wood");
         game.guessWord("wood");
-        assertEquals( game.getGameStatus(),GameStatus.LOST);
+        assertEquals(GameStatus.LOST, game.getGameStatus());
     }
 
     @Test
