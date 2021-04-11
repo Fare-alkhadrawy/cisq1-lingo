@@ -143,7 +143,7 @@ class FeedbackTest {
         Object object = new Object();
         assertEquals(one,one);
         assertNotEquals(object,one);
-        assertNotEquals( one, null);
+        assertNotEquals(null, one);
         assertEquals( one, two);
         assertNotEquals(one, three);
         assertNotEquals(one, four);
