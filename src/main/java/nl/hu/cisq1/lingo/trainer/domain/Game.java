@@ -1,6 +1,5 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.trainer.exception.RoundPlayingException;
@@ -35,7 +34,7 @@ public class Game implements Serializable{
 
 
         public void startRound(String wordToGuess) {
-                if (getLastRound().getRoundStatus() != RoundStatus.Win) {
+                if (getLastRound().getRoundStatus() != RoundStatus.WIN) {
                     throw new RoundPlayingException("Round stil playing");
 
             }else {
@@ -46,7 +45,7 @@ public class Game implements Serializable{
 
         public void guessWord(String word) {
             getLastRound().guessWord(word);
-            if (getLastRound().getRoundStatus() != RoundStatus.Playing) {
+            if (getLastRound().getRoundStatus() != RoundStatus.PLAYING) {
                 if (getLastRound().isRoundWon()) {
                     this.score += scoreBerekening(getLastRound());
                 } else {

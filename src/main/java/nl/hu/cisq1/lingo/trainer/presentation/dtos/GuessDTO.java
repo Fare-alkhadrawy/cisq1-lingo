@@ -1,4 +1,4 @@
-package nl.hu.cisq1.lingo.trainer.presentation.DTOs;
+package nl.hu.cisq1.lingo.trainer.presentation.dtos;
 
 import javax.validation.constraints.NotBlank;
 

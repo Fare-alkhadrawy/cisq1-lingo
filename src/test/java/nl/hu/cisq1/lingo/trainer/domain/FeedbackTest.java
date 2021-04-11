@@ -4,7 +4,6 @@ import nl.hu.cisq1.lingo.trainer.exception.InvalidAttemptException;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -147,5 +146,8 @@ class FeedbackTest {
         assertNotEquals(one, three);
         assertNotEquals(one, four);
         assertNotEquals(three,four);
+        int i = one.hashCode();
+        assertEquals(i, two.hashCode());
+        assertEquals(i, one.hashCode());
     }
 }

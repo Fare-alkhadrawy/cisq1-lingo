@@ -3,7 +3,6 @@ package nl.hu.cisq1.lingo.trainer.application;
 import javassist.NotFoundException;
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
-import nl.hu.cisq1.lingo.trainer.domain.GameStatus;
 import nl.hu.cisq1.lingo.trainer.domain.RoundStatus;
 import nl.hu.cisq1.lingo.trainer.exception.GameNotFoundException;
 import nl.hu.cisq1.lingo.words.application.WordService;
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
-public class GameServiceIntegrationTest {
+class GameServiceIntegrationTest {
 
     @Autowired
     GameService service;
@@ -36,7 +35,7 @@ public class GameServiceIntegrationTest {
 
     @DisplayName("test if the first word has 5 letter in new game")
     @Test
-    void startGameWordLength ( ) throws NotFoundException {
+    void startGameWordLength ( ){
         Game game = service.startGame();
         String wordToGuess = game.getLastRound().getWordToGuess();
         assertEquals(5, wordToGuess.length());
@@ -58,7 +57,7 @@ public class GameServiceIntegrationTest {
 
     @Test
     @DisplayName("test make a new round")
-    void startNewRound ( ) throws NotFoundException {
+    void startNewRound ( ){
         WordService wordService= Mockito.mock(WordService.class);
         Mockito.when(wordService.provideRandomWord(Mockito.anyInt())).thenReturn("appel");
         GameService service1 = new GameService(wordService, repository);
@@ -69,11 +68,11 @@ public class GameServiceIntegrationTest {
 
     @Test
     @DisplayName("test if the word guessed")
-    void wordGuessedTest ( ) throws NotFoundException {
+    void wordGuessedTest ( ){
         Game game = service.startGame();
         String wordToGuess = game.getLastRound().getWordToGuess();
         service.doGuess(wordToGuess, game.getGameId());
-        assertEquals(RoundStatus.Win, game.getLastRound().getRoundStatus());
+        assertEquals(RoundStatus.WIN, game.getLastRound().getRoundStatus());
 
     }
 }

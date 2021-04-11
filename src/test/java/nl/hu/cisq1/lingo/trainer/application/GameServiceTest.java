@@ -35,24 +35,24 @@ class GameServiceTest {
 
     @Test
     @DisplayName("Start new game")
-    public void startNewGameTest() {
+    void startNewGameTest() {
         assertEquals(game,service.startGame());
     }
     @Test
     @DisplayName("Test if the word guessed")
-    public void wonRoundTest() throws NotFoundException {
-        assertEquals(service.doGuess("appel", 2L).getLastRound().getRoundStatus(), RoundStatus.Win);
+    void wonRoundTest(){
+        assertEquals(RoundStatus.WIN, service.doGuess("appel", 2L).getLastRound().getRoundStatus());
     }
     @Test
     @DisplayName("Test if the game is lost")
-    public void lostGameTest() throws NotFoundException {
+    void lostGameTest(){
         for (int i = 1 ; i < 5; i++)
             service.doGuess("aapel", 2L);
-        assertEquals(service.doGuess("aapel", 2L).getGameStatus(), GameStatus.LOST);
+        assertEquals(GameStatus.LOST, service.doGuess("aapel", 2L).getGameStatus());
     }
     @Test
     @DisplayName("Test if the game Ended")
-    public void gameEndTest() throws NotFoundException {
+    void gameEndTest(){
         for (int i = 1 ; i < 6; i++)
             service.doGuess("aapel", 2L);
         assertThrows(IllegalMoveException.class, ()->service.doGuess("aapel", 2L));
@@ -60,18 +60,19 @@ class GameServiceTest {
 
     @Test
     @DisplayName("Test if the new round started")
-    public void startNewRoundTest() throws NotFoundException {
+    void startNewRoundTest(){
             service.doGuess("appel", 2L);
             assertEquals(2,service.startNewRound(2L).getRounds().size());
     }
     @Test
     @DisplayName("Test if the game not founded")
-    public void gameNotFoundedTest(){
+    void gameNotFoundedTest(){
         assertThrows(GameNotFoundException.class,()->service.getGame(4L));
     }
+
     @Test
     @DisplayName("Test if the game founded")
-    public void gameFoundedTest() throws NotFoundException {
+    void gameFoundedTest(){
         assertEquals(game, service.getGame(2L));
     }
 }
