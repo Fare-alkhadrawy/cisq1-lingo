@@ -3,8 +3,12 @@ package nl.hu.cisq1.lingo.trainer.presentation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.hu.cisq1.lingo.CiTestConfiguration;
 import nl.hu.cisq1.lingo.trainer.application.GameService;
+import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
+import nl.hu.cisq1.lingo.trainer.exception.GameNotFoundException;
 import nl.hu.cisq1.lingo.trainer.presentation.dtos.GuessDTO;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -22,9 +28,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class GameControllerTest {
     @Autowired
-    GameService service;
+    private GameService service;
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private SpringGameRepository repository;
+
+    private Game game;
+
+    @BeforeEach
+    void beforeEach(){
+        this.game = service.startGame();
+    }
+    @AfterEach
+    void afterEach(){
+        if(repository.findById(this.game.getGameId()).isPresent()) repository.delete(game);
+    }
+
+
+    @DisplayName("test throw exception if the game not founded")
+    @Test
+    void getGameTestFail(){
+        assertThrows(GameNotFoundException.class,()-> service.getGame((long) 0));
+    }
 
 
     public static String asJsonString(final Object obj) {
@@ -38,6 +64,7 @@ class GameControllerTest {
     }
 
     @Test
+    @DisplayName("test if the nwe game started")
     void startGame ( ) throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/game");
@@ -48,7 +75,6 @@ class GameControllerTest {
     @Test
     @DisplayName("Test valid guess")
     void validGuessWord ( ) throws Exception {
-        Game game = service.startGame();
         GuessDTO guessDTO = new GuessDTO();
         guessDTO.guess = game.getLastRound().getWordToGuess();
         guessDTO.id = game.getGameId();
@@ -63,7 +89,6 @@ class GameControllerTest {
     @Test
     @DisplayName("Test invalid guess")
     void invalidGuessWord ( ) throws Exception {
-        Game game = service.startGame();
         GuessDTO guessDTO = new GuessDTO();
         guessDTO.guess = "aaaa";
         guessDTO.id = game.getGameId();
@@ -77,7 +102,6 @@ class GameControllerTest {
     @Test
     @DisplayName("Test guessing to not founded game")
     void notFoundGuessWord ( ) throws Exception {
-        Game game = service.startGame();
         GuessDTO guessDTO = new GuessDTO();
         guessDTO.guess = game.getLastRound().getWordToGuess();
         guessDTO.id = 0;
@@ -92,7 +116,6 @@ class GameControllerTest {
     @Test
     @DisplayName("test if the new round started and added to rounds list")
     void startRound ( ) throws Exception {
-        Game game = service.startGame();
         service.doGuess(game.getLastRound().getWordToGuess(),game.getGameId());
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/game/startRound/"+ game.getGameId());
@@ -103,7 +126,6 @@ class GameControllerTest {
     @Test
     @DisplayName("test start new round while the last round active")
     void cantStartRound ( ) throws Exception {
-        Game game = service.startGame();
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/game/startRound/"+ game.getGameId());
         mockMvc.perform(requestBuilder)
@@ -112,9 +134,8 @@ class GameControllerTest {
     @Test
     @DisplayName("test start new round while the last round active")
     void notFoundStartRound ( ) throws Exception {
-        Game game = service.startGame();
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/game/startRound/0");
+                .post("/game/startRound/"+ game.getGameId());
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest());
     }
